@@ -34,6 +34,17 @@ async def get_message(topic_name: str, message_class: Type[MSG], timeout: Option
         raise TimeoutError(f"Timeout ({timeout}s)! Topic '{topic_name}' is not available! Have you initialized a node?") from None
 
 
+async def start_node(name: str, anonymous: bool = False, timeout: Optional[float] = 10):
+    logger.info(f"Waiting until node '{name}' start.")
+    node_waiter = partial(rospy.init_node, name, anonymous=anonymous)
+    try:
+        with anyio.fail_after(timeout):
+            await anyio.to_thread.run_sync(node_waiter, cancellable=True)
+    except TimeoutError:
+        logger.error(f"Timeout ({timeout}s)! Node '{name}' had not started!")
+        raise
+
+
 @attr.define()
 class Callback:
     callback: Optional[Callable[..., Coroutine[Any, Any, Any]]] = attr.field(default=None)
