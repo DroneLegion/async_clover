@@ -1,6 +1,6 @@
 import attr
 from typing import Optional, Type
-from async_clover.ros_wrappers import AsyncService, AsyncSubscriber
+from .. ros_wrappers import AsyncService, AsyncSubscriber
 
 from sensor_msgs.msg import Range
 

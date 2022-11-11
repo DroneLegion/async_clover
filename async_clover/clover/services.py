@@ -1,4 +1,4 @@
-from async_clover.ros_wrappers import AsyncService, AsyncSubscriber
+from .. ros_wrappers import AsyncService, AsyncSubscriber
 
 
 from clover import srv

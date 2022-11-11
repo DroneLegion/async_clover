@@ -7,7 +7,7 @@ import anyio
 import attr
 import rospy
 
-from async_clover.ros_wrappers.utils import wait_for_service
+from . utils import wait_for_service
 
 logger = logging.getLogger(__name__)
 

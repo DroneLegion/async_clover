@@ -3,9 +3,9 @@ import logging
 from functools import cached_property
 from typing import Literal, Union, Optional
 
-from async_clover.ros_wrappers import AsyncSubscriber
-from async_clover.clover.enums import FrameId, FRAME_IDS_TYPE
-from async_clover.clover.services import CloverFlightServices, CloverLedServices
+from .. ros_wrappers import AsyncSubscriber
+from . enums import FrameId, FRAME_IDS_TYPE
+from . services import CloverFlightServices, CloverLedServices
 
 import rospy
 from sensor_msgs.msg import Range
@@ -54,7 +54,7 @@ class Clover:
             z: float = 0,
             yaw: float = float('nan'),
             frame_id: FRAME_IDS_TYPE = FrameId.body,
-            speed: Optional[float] = None,
+            speed: Union[Optional[float]] = None,
             tolerance: Optional[float] = None,
     ):
         speed = speed or self.speed
