@@ -22,7 +22,7 @@ class Clover:
 
     async def start(self, anonymous: bool = False):
         logger.info(f"Starting node {self.node_name}")
-        rospy.start_node(self.node_name, anonymous=anonymous)
+        rospy.init_node(self.node_name, anonymous=anonymous)
         logger.info(f"Node {self.node_name} started")
 
         logger.info(f"Waiting for services")
