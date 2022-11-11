@@ -2,7 +2,7 @@ import enum
 from typing import Literal, Union
 
 
-class FrameId(enum.Enum):
+class FrameId(enum.StrEnum):
     map = "map"
     base_link = "base_link"
     body = "body"
@@ -30,7 +30,7 @@ FRAME_IDS = Literal[
 FRAME_IDS_TYPE = Union[FrameId, FRAME_IDS, str]
 
 
-class LedEffect(enum.Enum):
+class LedEffect(enum.StrEnum):
     fill = "fill"
     blink = "blink"
     blink_fast = "blink_fast"
