@@ -1,15 +1,16 @@
 import attr
-import enum
+import logging
 from functools import cached_property
 from typing import Literal, Union, Optional
 
 from async_clover.ros_wrappers import AsyncSubscriber
 from async_clover.clover.enums import FrameId, FRAME_IDS_TYPE
 from async_clover.clover.services import CloverFlightServices, CloverLedServices
-from async_clover.ros_wrappers.utils import start_node
 
-
+import rospy
 from sensor_msgs.msg import Range
+
+logger = logging.getLogger(__name__)
 
 
 @attr.define()
@@ -19,12 +20,17 @@ class Clover:
     tolerance: float = attr.field(default=0.20)
     speed: float = attr.field(default=1.0)
 
-    async def start(self):
-        await start_node(self.node_name)
+    async def start(self, anonymous: bool = False):
+        logger.info(f"Starting node {self.node_name}")
+        rospy.start_node(self.node_name, anonymous=anonymous)
+        logger.info(f"Node {self.node_name} started")
+
+        logger.info(f"Waiting for services")
         await CloverFlightServices.get_telemetry.connect()
         await CloverFlightServices.navigate.connect()
         await CloverFlightServices.land.connect()
         await CloverFlightServices.arming.connect()
+        logger.info(f"Services connected")
 
     @cached_property
     def rangefinder(self) -> AsyncSubscriber[Range]:
